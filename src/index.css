@@ -1,0 +1,127 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap');
+
+@theme {
+  --color-brand-beige: #F0F4EF;
+  /* Cooler, lighter tone */
+  --color-brand-dark: #2DB9A5;
+  /* New Teal */
+  --color-brand-accent: #FFB8A5;
+  /* New Coral/Peach */
+  --color-brand-pop: #B2EDE0;
+  /* Light Cyan/Blue */
+
+  /* Nature Theme */
+  --color-nature-green: #a7c957;
+  --color-nature-light: #f2e8cf;
+  --color-nature-dark: #386641;
+  --color-nature-cream: #fefae0;
+
+  --font-sans: 'Inter', sans-serif;
+
+  --animate-marquee: marquee 25s linear infinite;
+  --animate-float: float 20s linear infinite;
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0;
+    }
+
+    10% {
+      opacity: 1;
+    }
+
+    90% {
+      opacity: 1;
+    }
+
+    100% {
+      transform: translateY(-120vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+}
+
+@layer components {
+
+  /* Typography Mimicry */
+  .text-160-regular {
+    @apply text-5xl sm:text-7xl md:text-8xl lg:text-[10rem] font-normal leading-[0.85] tracking-tight text-[var(--color-brand-dark)];
+  }
+
+  .text-80-regular {
+    @apply text-4xl sm:text-5xl md:text-7xl lg:text-[5rem] font-normal leading-none text-[var(--color-brand-dark)];
+  }
+
+  .text-120-medium {
+    @apply text-4xl sm:text-6xl md:text-8xl lg:text-[7.5rem] font-medium leading-[0.9] tracking-tight text-[var(--color-brand-dark)] whitespace-nowrap;
+  }
+
+  .h2-style-new {
+    @apply text-3xl md:text-5xl lg:text-6xl font-normal leading-tight;
+  }
+
+  .text-16-regular-caps {
+    @apply text-sm md:text-base font-normal uppercase tracking-widest;
+  }
+
+  /* Layout Mimicry */
+  .btn-new-transparent {
+    @apply inline-flex items-center gap-4 px-6 py-3 border border-[var(--color-brand-dark)] rounded-full text-xs uppercase tracking-widest hover:bg-[var(--color-brand-dark)] hover:text-[var(--color-brand-beige)] transition-all cursor-pointer;
+  }
+
+  .btn-new-green {
+    @apply inline-flex items-center gap-4 px-6 py-3 bg-[var(--color-brand-accent)] text-white rounded-full text-xs uppercase tracking-widest hover:bg-[var(--color-brand-dark)] transition-all cursor-pointer shadow-lg;
+  }
+
+  .divider-hero-line {
+    @apply w-full h-px bg-[var(--color-brand-dark)] my-8 opacity-20;
+  }
+
+  .green-line {
+    @apply w-full h-px bg-[var(--color-brand-accent)] my-4 opacity-30;
+  }
+
+  /* Utilities */
+  .capsule-card-new {
+    @apply bg-white p-6 md:p-10 rounded-[2rem] border border-[#E0Dcd5] flex flex-col justify-between min-h-[300px] hover:shadow-xl transition-shadow duration-300;
+  }
+
+  /* Logo Specific Branding */
+  .logo-kind-vege {
+    font-family: 'Fredoka', sans-serif;
+    -webkit-text-stroke: 1.5px white;
+    text-stroke: 1.5px white;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+    letter-spacing: -0.02em;
+  }
+
+  .link-stack-btn {
+    @apply w-full flex items-center gap-4 p-5 rounded-2xl bg-[var(--color-brand-accent)] text-white font-medium shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:brightness-105;
+  }
+
+  /* Bubbly Heading Style */
+  .heading-bubbly {
+    font-family: 'Fredoka', sans-serif;
+    -webkit-text-stroke: 1px white;
+    text-stroke: 1px white;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  }
+}
+
+/* Global Styles */
+body {
+  background-color: var(--color-brand-beige);
+  color: var(--color-brand-dark);
+}
