@@ -122,9 +122,14 @@ function App() {
           <div className="text-4xl font-bold logo-kind-vege text-[#FFB8A5]">Kind<span className="text-[#B2EDE0]">Vege</span></div>
         </a>
 
-        <div className="hidden md:flex items-center gap-2 pointer-events-auto">
+        <div className="hidden md:flex items-center gap-4 pointer-events-auto">
+          <a href="/recipes.html" className="btn-new-transparent h-10 px-6 bg-[#FFB8A5]/20 backdrop-blur-md border-[#FFB8A5]/40 text-[#FFB8A5] hover:bg-[#FFB8A5] hover:text-white transition-colors duration-300">
+            <div className="w-1.5 h-1.5 bg-current rounded-full"></div>
+            Recipes
+            <div className="w-1.5 h-1.5 bg-current rounded-full"></div>
+          </a>
           {/* Keeping the menu button simple as it occupies small space */}
-          <a href="#about" className="btn-new-transparent h-10 px-6 bg-white/20 backdrop-blur-md border-white/40 text-white hover:bg-white hover:text-[#2DB9A5]">
+          <a href="#about" className="btn-new-transparent h-10 px-6 bg-white/20 backdrop-blur-md border-white/40 text-white hover:bg-white hover:text-[#2DB9A5] transition-colors duration-300">
             <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
             Menu
             <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
