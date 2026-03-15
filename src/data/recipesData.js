@@ -240,35 +240,6 @@ Seollal is about renewal. A plant-based tteokguk becomes part of that renewal—
                 footerMessage: "Enjoy! 맛있게 드세요!"
         },
         {
-                id: "temple-greens",
-                title: "Temple Mountain Greens 산채나물",
-                featured: false,
-                dietary: "Vegan | No Garlic & Onion | Gluten-Free",
-                course: "Side Dish",
-                cuisine: "Korean Temple Food",
-                keyword: "temple food, namul, greens",
-                totalTime: "15 Minutes",
-                servings: "2-3 Servings",
-                image: temple1,
-                blogTitle: "Foraging for Peace",
-                blogPassage: `Simplicity is the key to Namul. We use seasonal greens, lightly blanched and seasoned to preserve their natural essence.`,
-                ingredients: ["Assorted seasonal greens", "Sesame oil", "Sea salt", "Toasted sesame seeds"],
-                ingredients_ko: ["제철 나물", "참기름", "천일염", "볶은 깨"],
-                instructions: [
-                        "Blanch the greens in salted boiling water.",
-                        "Squeeze out excess water.",
-                        "Season with sesame oil and salt.",
-                        "Garnish with sesame seeds."
-                ],
-                instructions_ko: [
-                        "나물을 소금물에 데칩니다.",
-                        "물기를 꼭 짭니다.",
-                        "참기름과 소금으로 버무립니다.",
-                        "깨를 뿌려 완성합니다."
-                ],
-                footerMessage: "Pure and earthy. 순수한 자연의 맛."
-        },
-        {
                 id: "shiitake-broth",
                 title: "Shiitake Mushroom Broth 표고버섯 채수",
                 featured: false,
@@ -303,7 +274,7 @@ Seollal is about renewal. A plant-based tteokguk becomes part of that renewal—
                 course: "Side Dish (Namul)",
                 cuisine: "Korean, Vegan, Temple Food",
                 keyword: "spinach, namul, korean side dish, vegetable, vegan",
-                totalTime: "15 Minutes",
+                totalTime: "5 Minutes",
                 servings: "2 Servings",
                 image: spinachBasic,
                 variantTitle: "Recipe Versions / 버전",
@@ -362,7 +333,7 @@ Seollal is about renewal. A plant-based tteokguk becomes part of that renewal—
                 course: "Side Dish (Namul)",
                 cuisine: "Korean, Vegan",
                 keyword: "cabbage, salad, geotjeori, bomdong, korean, vegan",
-                totalTime: "15 Minutes",
+                totalTime: "5 Minutes",
                 servings: "2-4 Servings",
                 image: cabbageSaladMain,
                 variantImages: [cabbageComparison, cabbageSeasoning, cabbageFlat, cabbageField],
