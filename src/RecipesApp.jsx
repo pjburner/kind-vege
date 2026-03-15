@@ -6,30 +6,36 @@ import { ArrowLeft, Check, ChevronDown, Clock, Users, Flame } from 'lucide-react
 import { RECIPES } from './data/recipesData'
 
 function RecipesApp() {
+    const [activeRecipeId, setActiveRecipeId] = useState(null);
     const [checkedIngredients, setCheckedIngredients] = useState(new Set());
 
-    // Focus on the single recipe provided
-    const recipe = RECIPES[0];
+    // Get the current active recipe
+    const activeRecipe = useMemo(() =>
+        RECIPES.find(r => r.id === activeRecipeId) || null
+        , [activeRecipeId]);
 
-    const toggleIngredient = (idx) => {
+    const handleRecipeClick = (id) => {
+        setActiveRecipeId(id);
+        setCheckedIngredients(new Set()); // Reset checks for new recipe
+
+        // Scroll to details
+        setTimeout(() => {
+            const element = document.getElementById('recipe-details');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 100);
+    };
+
+    const toggleIngredient = (id) => {
         const newChecked = new Set(checkedIngredients);
-        if (newChecked.has(idx)) {
-            newChecked.delete(idx);
+        if (newChecked.has(id)) {
+            newChecked.delete(id);
         } else {
-            newChecked.add(idx);
+            newChecked.add(id);
         }
         setCheckedIngredients(newChecked);
     };
-
-    const scrollToRecipe = (e) => {
-        e.preventDefault();
-        const element = document.getElementById('recipe-details');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
-    if (!recipe) return <div className="min-h-screen bg-[#2DB9A5] flex items-center justify-center text-white">Loading...</div>;
 
     return (
         <div className="min-h-screen bg-[#2DB9A5] text-white overflow-x-hidden font-sans selection:bg-[#FFB8A5] selection:text-white">
@@ -51,255 +57,300 @@ function RecipesApp() {
             </nav>
 
             <main className="relative z-10 pt-32 pb-20 px-6">
-                <div className="max-w-5xl mx-auto">
+                <div className="max-w-6xl mx-auto">
 
-                    {/* Hero Section */}
-                    <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[3rem] overflow-hidden shadow-2xl">
-                        <div className="relative h-[60vh] w-full">
-                            <img
-                                src={recipe.image}
-                                alt={recipe.title}
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    {/* Gallery Title */}
+                    <div className="mb-20 text-center">
+                        <h1 className="text-6xl md:text-8xl font-bold heading-bubbly text-white mb-6">
+                            The <span className="text-[#FFB8A5]">Recipes</span>
+                        </h1>
+                        <p className="text-xl md:text-2xl text-white/80 max-w-2xl mx-auto font-medium">
+                            Click a recipe card to explore intentional, plant-based Korean flavors.
+                        </p>
+                    </div>
 
-                            <div className="absolute bottom-0 left-0 w-full p-8 md:p-12">
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFB8A5]/90 text-white uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-6">
-                                    <Flame size={14} />
-                                    Featured Recipe
-                                </div>
+                    {/* Recipe Grid System */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+                        {RECIPES.map((r, idx) => (
+                            <button
+                                key={r.id}
+                                onClick={() => handleRecipeClick(r.id)}
+                                className={`group relative rounded-[2.5rem] overflow-hidden bg-white/10 border transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl ${activeRecipeId === r.id ? 'border-[#FFB8A5] ring-4 ring-[#FFB8A5]/20 shadow-xl' : 'border-white/20 hover:border-white/40'}`}
+                            >
+                                <div className="aspect-[4/5] relative">
+                                    <img
+                                        src={r.image}
+                                        alt={r.title}
+                                        className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
 
-                                <h1 className="text-5xl md:text-7xl font-bold heading-bubbly text-[#FFB8A5] mb-6 leading-tight">
-                                    {recipe.title}
-                                </h1>
-
-                                <div className="flex flex-wrap items-center gap-6 text-white/90 font-medium mb-8">
-                                    <div className="flex items-center gap-2">
-                                        <Clock className="text-[#B2EDE0]" size={20} />
-                                        <span>{recipe.totalTime}</span>
+                                    <div className="absolute bottom-0 left-0 w-full p-8 text-left">
+                                        <div className="text-[#B2EDE0] text-xs font-bold tracking-[0.2em] uppercase mb-2">#{idx + 1} Recipe</div>
+                                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
+                                            {r.title}
+                                        </h3>
+                                        <div className="flex items-center gap-4 text-white/70 text-sm font-medium">
+                                            <div className="flex items-center gap-1.5"><Clock size={16} className="text-[#FFB8A5]" /> {r.totalTime}</div>
+                                            <div className="flex items-center gap-1.5 uppercase tracking-tighter">{r.cuisine}</div>
+                                        </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <Users className="text-[#B2EDE0]" size={20} />
-                                        <span>{recipe.servings}</span>
-                                    </div>
                                 </div>
+                                {activeRecipeId === r.id && (
+                                    <div className="absolute top-6 right-6 w-12 h-12 rounded-full bg-[#FFB8A5] flex items-center justify-center shadow-lg animate-in zoom-in duration-300">
+                                        <Check className="text-white" size={24} />
+                                    </div>
+                                )}
+                            </button>
+                        ))}
+                    </div>
 
-                                <button
-                                    onClick={scrollToRecipe}
-                                    className="group flex items-center gap-3 bg-white text-[#2DB9A5] px-8 py-4 rounded-full font-bold text-lg hover:bg-[#B2EDE0] transition-colors duration-300 shadow-lg"
-                                >
-                                    Jump to Recipe
-                                    <ChevronDown className="group-hover:translate-y-1 transition-transform" />
-                                </button>
+                    {/* Recipe Detail View (Conditional) */}
+                    {activeRecipe ? (
+                        <div id="recipe-details" className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[3rem] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-12 duration-700">
+
+                            {/* Visual Recipe Header */}
+                            <div className="relative h-[50vh] w-full">
+                                <img
+                                    src={activeRecipe.image}
+                                    alt={activeRecipe.title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
+                                <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFB8A5]/90 text-white uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-6">
+                                        Selected Recipe
+                                    </div>
+                                    <h1 className="text-5xl md:text-7xl font-bold heading-bubbly text-[#FFB8A5] mb-6 leading-tight max-w-4xl">
+                                        {activeRecipe.title}
+                                    </h1>
+                                    {activeRecipe.dietary && (
+                                        <div className="px-6 py-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white font-bold text-sm">
+                                            {activeRecipe.dietary}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Seollal Blog Section */}
-                        {recipe.blogTitle && (
-                            <div className="p-8 md:p-12 lg:p-16 bg-white border-b border-black/5">
-                                <div className="max-w-3xl mx-auto">
-                                    <h2 className="text-3xl md:text-5xl font-bold heading-bubbly text-[#2DB9A5] mb-8 leading-tight">
-                                        {recipe.blogTitle}
-                                    </h2>
-
-                                    <div className="space-y-6 text-black/80 font-medium text-lg leading-relaxed">
-                                        {recipe.blogPassage.split('\n\n').map((paragraph, idx) => (
-                                            <p key={idx}>
-                                                {/* Simple bolding for **text** */}
-                                                {paragraph.split('**').map((part, i) =>
-                                                    i % 2 === 1 ? <strong key={i} className="text-[#FFB8A5]">{part}</strong> : part
-                                                )}
-                                            </p>
-                                        ))}
-                                    </div>
-
-                                    {/* Temple Images Grid */}
-                                    {recipe.templeImages && recipe.templeImages.length > 0 && (
-                                        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            {recipe.templeImages.map((img, i) => (
-                                                <div key={i} className="aspect-[4/3] rounded-3xl overflow-hidden shadow-lg border border-black/5 hover:scale-[1.02] transition-transform duration-500">
-                                                    <img
-                                                        src={img}
-                                                        alt={`Temple tradition ${i + 1}`}
-                                                        className="w-full h-full object-cover"
-                                                    />
-                                                </div>
+                            {/* Blog/Context Section */}
+                            {activeRecipe.blogTitle && (
+                                <div className="p-8 md:p-12 lg:p-16 bg-white border-b border-black/5">
+                                    <div className="max-w-3xl mx-auto">
+                                        <h2 className="text-3xl md:text-5xl font-bold heading-bubbly text-[#2DB9A5] mb-8 leading-tight">
+                                            {activeRecipe.blogTitle}
+                                        </h2>
+                                        <div className="space-y-6 text-black/80 font-medium text-lg leading-relaxed">
+                                            {activeRecipe.blogPassage.split('\n\n').map((p, i) => (
+                                                <p key={i}>
+                                                    {p.split('**').map((part, pi) => pi % 2 === 1 ? <strong key={pi} className="text-[#FFB8A5]">{part}</strong> : part)}
+                                                </p>
                                             ))}
                                         </div>
-                                    )}
 
-                                    {/* Why Vegan Section */}
-                                    {recipe.whyVeganTitle && (
-                                        <div className="mt-20 pt-12 border-t border-black/5">
-                                            <h2 className="text-3xl md:text-5xl font-bold heading-bubbly text-[#FFB8A5] mb-8 leading-tight">
-                                                {recipe.whyVeganTitle}
-                                            </h2>
-
-                                            <div className="space-y-6 text-black/80 font-medium text-lg leading-relaxed">
-                                                {recipe.whyVeganPassage.split('\n\n').map((paragraph, idx) => {
-                                                    // Handle list items
-                                                    if (paragraph.trim().startsWith('-')) {
-                                                        return (
-                                                            <ul key={idx} className="space-y-3 pl-4">
-                                                                {paragraph.split('\n').map((item, i) => (
-                                                                    <li key={i} className="flex items-start gap-3">
-                                                                        <div className="mt-2 w-1.5 h-1.5 rounded-full bg-[#2DB9A5] flex-shrink-0" />
-                                                                        <span>
-                                                                            {item.replace(/^- /, '').split('**').map((part, pi) =>
-                                                                                pi % 2 === 1 ? <strong key={pi} className="text-[#2DB9A5]">{part}</strong> : part
-                                                                            )}
-                                                                        </span>
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        );
-                                                    }
-
-                                                    return (
-                                                        <p key={idx}>
-                                                            {paragraph.split('**').map((part, i) =>
-                                                                i % 2 === 1 ? <strong key={i} className="text-[#2DB9A5]">{part}</strong> : part
-                                                            )}
-                                                        </p>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    {/* Represents Section */}
-                                    {recipe.representsTitle && (
-                                        <div className="mt-20 pt-12 border-t border-black/5">
-                                            <h2 className="text-3xl md:text-5xl font-bold heading-bubbly text-[#2DB9A5] mb-8 leading-tight">
-                                                {recipe.representsTitle}
-                                            </h2>
-
-                                            <div className="space-y-6 text-black/80 font-medium text-lg leading-relaxed">
-                                                {recipe.representsPassage.split('\n\n').map((paragraph, idx) => {
-                                                    // Handle list items
-                                                    if (paragraph.trim().startsWith('-')) {
-                                                        return (
-                                                            <ul key={idx} className="space-y-3 pl-4">
-                                                                {paragraph.split('\n').map((item, i) => (
-                                                                    <li key={i} className="flex items-start gap-3">
-                                                                        <div className="mt-2 w-1.5 h-1.5 rounded-full bg-[#FFB8A5] flex-shrink-0" />
-                                                                        <span>
-                                                                            {item.replace(/^- /, '').split('**').map((part, pi) =>
-                                                                                pi % 2 === 1 ? <strong key={pi} className="text-[#FFB8A5]">{part}</strong> : part
-                                                                            )}
-                                                                        </span>
-                                                                    </li>
-                                                                ))}
-                                                            </ul>
-                                                        );
-                                                    }
-
-                                                    return (
-                                                        <p key={idx}>
-                                                            {paragraph.split('**').map((part, i) =>
-                                                                i % 2 === 1 ? <strong key={i} className="text-[#FFB8A5]">{part}</strong> : part
-                                                            )}
-                                                        </p>
-                                                    );
-                                                })}
-                                            </div>
-
-                                            {/* Represents Images Grid */}
-                                            {recipe.representsImages && recipe.representsImages.length > 0 && (
-                                                <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                    {recipe.representsImages.map((img, i) => (
-                                                        <div key={i} className="aspect-[4/3] rounded-3xl overflow-hidden shadow-lg border border-black/5 hover:scale-[1.02] transition-transform duration-500">
-                                                            <img
-                                                                src={img}
-                                                                alt={`Representation ${i + 1}`}
-                                                                className="w-full h-full object-cover"
-                                                            />
+                                        {/* Optional Variant Images (e.g. Basic vs Savory) */}
+                                        {activeRecipe.variantImages && activeRecipe.variantImages.length > 0 && (
+                                            <div className="mt-12">
+                                                <h3 className="text-xl font-bold text-[#2DB9A5] mb-6 uppercase tracking-widest">
+                                                    {activeRecipe.variantTitle || "Gallery / 갤러리"}
+                                                </h3>
+                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                                    {activeRecipe.variantImages.map((img, i) => (
+                                                        <div key={i} className="group relative aspect-square rounded-2xl overflow-hidden shadow-sm border border-black/5 hover:scale-[1.05] transition-transform duration-500">
+                                                            <img src={img} alt={`Gallery item ${i + 1}`} className="w-full h-full object-cover" />
                                                         </div>
                                                     ))}
                                                 </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        )}
+                                            </div>
+                                        )}
 
-                        {/* Recipe Details Section */}
-                        <div id="recipe-details" className="p-8 md:p-12 lg:p-16 bg-white text-[#0F4C5C]">
-                            <div className="grid md:grid-cols-3 gap-16">
-
-                                {/* Ingredients Sidebar */}
-                                <div className="md:col-span-1">
-                                    <h3 className="text-3xl font-bold heading-bubbly text-[#2DB9A5] mb-8">Ingredients</h3>
-                                    <div className="space-y-4">
-                                        {recipe.ingredients.length > 0 ? (
-                                            recipe.ingredients.map((ingredient, idx) => (
-                                                <label
-                                                    key={idx}
-                                                    className="flex items-start gap-4 cursor-pointer group p-3 rounded-xl hover:bg-black/5 transition-colors"
-                                                >
-                                                    <div className={`mt-1 w-6 h-6 rounded flex-shrink-0 border-2 flex items-center justify-center transition-colors ${checkedIngredients.has(idx) ? 'bg-[#FFB8A5] border-[#FFB8A5]' : 'border-[#2DB9A5] group-hover:border-[#FFB8A5]'}`}>
-                                                        {checkedIngredients.has(idx) && <Check size={16} className="text-white" />}
+                                        {/* Optional Temple Images */}
+                                        {activeRecipe.templeImages && activeRecipe.templeImages.length > 0 && (
+                                            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                {activeRecipe.templeImages.map((img, i) => (
+                                                    <div key={i} className="aspect-[4/3] rounded-3xl overflow-hidden shadow-lg border border-black/5 hover:scale-[1.02] transition-transform duration-500">
+                                                        <img src={img} alt={`Tradition ${i + 1}`} className="w-full h-full object-cover" />
                                                     </div>
-                                                    <span className={`text-lg leading-relaxed transition-all ${checkedIngredients.has(idx) ? 'line-through text-black/40' : 'text-black/80 font-medium'}`}>
-                                                        {ingredient}
-                                                    </span>
-                                                </label>
-                                            ))
-                                        ) : (
-                                            <p className="text-black/40 italic">Coming soon...</p>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Why Vegan Section */}
+                                        {activeRecipe.whyVeganTitle && (
+                                            <div className="mt-20 pt-12 border-t border-black/5">
+                                                <h2 className="text-3xl md:text-5xl font-bold heading-bubbly text-[#FFB8A5] mb-8 leading-tight">
+                                                    {activeRecipe.whyVeganTitle}
+                                                </h2>
+                                                <div className="space-y-6 text-black/80 font-medium text-lg leading-relaxed">
+                                                    {activeRecipe.whyVeganPassage.split('\n\n').map((paragraph, idx) => {
+                                                        if (paragraph.trim().startsWith('-')) {
+                                                            return (
+                                                                <ul key={idx} className="space-y-3 pl-4">
+                                                                    {paragraph.split('\n').map((item, i) => (
+                                                                        <li key={i} className="flex items-start gap-3">
+                                                                            <div className="mt-2 w-1.5 h-1.5 rounded-full bg-[#2DB9A5] flex-shrink-0" />
+                                                                            <span>{item.replace(/^- /, '').split('**').map((part, pi) => pi % 2 === 1 ? <strong key={pi} className="text-[#2DB9A5]">{part}</strong> : part)}</span>
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            );
+                                                        }
+                                                        return <p key={idx}>{paragraph.split('**').map((part, i) => i % 2 === 1 ? <strong key={i} className="text-[#2DB9A5]">{part}</strong> : part)}</p>;
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Represents Section */}
+                                        {activeRecipe.representsTitle && (
+                                            <div className="mt-20 pt-12 border-t border-black/5">
+                                                <h2 className="text-3xl md:text-5xl font-bold heading-bubbly text-[#2DB9A5] mb-8 leading-tight">
+                                                    {activeRecipe.representsTitle}
+                                                </h2>
+                                                <div className="space-y-6 text-black/80 font-medium text-lg leading-relaxed">
+                                                    {activeRecipe.representsPassage.split('\n\n').map((paragraph, idx) => {
+                                                        if (paragraph.trim().startsWith('-')) {
+                                                            return (
+                                                                <ul key={idx} className="space-y-3 pl-4">
+                                                                    {paragraph.split('\n').map((item, i) => (
+                                                                        <li key={i} className="flex items-start gap-3">
+                                                                            <div className="mt-2 w-1.5 h-1.5 rounded-full bg-[#FFB8A5] flex-shrink-0" />
+                                                                            <span>{item.replace(/^- /, '').split('**').map((part, pi) => pi % 2 === 1 ? <strong key={pi} className="text-[#FFB8A5]">{part}</strong> : part)}</span>
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            );
+                                                        }
+                                                        return <p key={idx}>{paragraph.split('**').map((part, i) => i % 2 === 1 ? <strong key={i} className="text-[#FFB8A5]">{part}</strong> : part)}</p>;
+                                                    })}
+                                                </div>
+                                            </div>
                                         )}
                                     </div>
                                 </div>
+                            )}
 
-                                {/* Instructions Main area */}
-                                <div className="md:col-span-2">
-                                    <h3 className="text-3xl font-bold heading-bubbly text-[#2DB9A5] mb-8">Instructions</h3>
-                                    <div className="space-y-10">
-                                        {recipe.instructions.length > 0 ? (
-                                            recipe.instructions.map((step, idx) => (
-                                                <div key={idx} className="flex gap-6 group">
-                                                    <div className="flex-shrink-0">
-                                                        <div className="w-12 h-12 rounded-full bg-[#B2EDE0] text-[#2DB9A5] flex items-center justify-center text-xl font-bold group-hover:bg-[#FFB8A5] group-hover:text-white transition-colors duration-300">
-                                                            {idx + 1}
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-lg text-black/80 leading-relaxed pt-2 font-medium">
-                                                            {step}
-                                                        </p>
+                            {/* Recipe Steps & Ingredients */}
+                            <div className="p-8 md:p-12 lg:p-16 bg-[#FDFBF7] text-[#0F4C5C]">
+                                <div className="grid lg:grid-cols-3 gap-16">
+
+                                    {/* Sidebar: Ingredients */}
+                                    <div className="lg:col-span-1">
+                                        <h3 className="text-3xl font-bold heading-bubbly text-[#2DB9A5] mb-8">Ingredients / 재료</h3>
+                                        <div className="space-y-10">
+                                            <div>
+                                                <h4 className="text-xs uppercase tracking-widest text-[#FFB8A5] font-bold mb-4">English</h4>
+                                                <div className="space-y-2">
+                                                    {activeRecipe.ingredients.map((item, idx) => {
+                                                        if (item.startsWith('---')) {
+                                                            return (
+                                                                <h5 key={`en-h-${idx}`} className="text-sm font-bold text-[#2DB9A5] mt-6 mb-2 border-b border-[#2DB9A5]/10 pb-1">
+                                                                    {item.replace(/---/g, '').trim()}
+                                                                </h5>
+                                                            );
+                                                        }
+                                                        return (
+                                                            <label key={`en-${idx}`} className="flex items-start gap-4 cursor-pointer group hover:bg-[#2DB9A5]/5 p-2 rounded-lg transition-colors">
+                                                                <div onClick={() => toggleIngredient(`en-${idx}`)} className={`mt-1 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${checkedIngredients.has(`en-${idx}`) ? 'bg-[#FFB8A5] border-[#FFB8A5]' : 'border-[#2DB9A5] group-hover:border-[#FFB8A5]'}`}>
+                                                                    {checkedIngredients.has(`en-${idx}`) && <Check size={14} className="text-white" />}
+                                                                </div>
+                                                                <span className={`text-lg leading-snug transition-all ${checkedIngredients.has(`en-${idx}`) ? 'line-through text-black/30' : 'text-black/80 font-medium'}`}>
+                                                                    {item}
+                                                                </span>
+                                                            </label>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+
+                                            {activeRecipe.ingredients_ko && (
+                                                <div className="pt-8 border-t border-black/10">
+                                                    <h4 className="text-xs uppercase tracking-widest text-[#FFB8A5] font-bold mb-4">한국어</h4>
+                                                    <div className="space-y-2">
+                                                        {activeRecipe.ingredients_ko.map((item, idx) => {
+                                                            if (item.startsWith('---')) {
+                                                                return (
+                                                                    <h5 key={`ko-h-${idx}`} className="text-sm font-bold text-[#2DB9A5] mt-6 mb-2 border-b border-[#2DB9A5]/10 pb-1">
+                                                                        {item.replace(/---/g, '').trim()}
+                                                                    </h5>
+                                                                );
+                                                            }
+                                                            return (
+                                                                <label key={`ko-${idx}`} className="flex items-start gap-4 cursor-pointer group hover:bg-[#2DB9A5]/5 p-2 rounded-lg transition-colors">
+                                                                    <div onClick={() => toggleIngredient(`ko-${idx}`)} className={`mt-1 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${checkedIngredients.has(`ko-${idx}`) ? 'bg-[#FFB8A5] border-[#FFB8A5]' : 'border-[#2DB9A5] group-hover:border-[#FFB8A5]'}`}>
+                                                                        {checkedIngredients.has(`ko-${idx}`) && <Check size={14} className="text-white" />}
+                                                                    </div>
+                                                                    <span className={`text-lg leading-snug transition-all ${checkedIngredients.has(`ko-${idx}`) ? 'line-through text-black/30' : 'text-black/80 font-medium'}`}>
+                                                                        {item}
+                                                                    </span>
+                                                                </label>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
-                                            ))
-                                        ) : (
-                                            <p className="text-black/40 italic">Coming soon...</p>
-                                        )}
+                                            )}
+                                        </div>
                                     </div>
 
-                                    {/* Footer message */}
-                                    <div className="mt-16 p-8 bg-[#2DB9A5]/10 rounded-3xl border border-[#2DB9A5]/20 text-center">
-                                        <h4 className="text-2xl font-bold heading-bubbly text-[#FFB8A5] mb-2">Bon Appétit!</h4>
-                                        <p className="text-black/60 font-medium">{recipe.footerMessage}</p>
+                                    {/* Main: Instructions */}
+                                    <div className="lg:col-span-2">
+                                        <h3 className="text-3xl font-bold heading-bubbly text-[#2DB9A5] mb-8">Instructions / 레시피</h3>
+                                        <div className="space-y-16">
+                                            <div>
+                                                <h4 className="text-xs uppercase tracking-widest text-[#FFB8A5] font-bold mb-6">English Steps</h4>
+                                                <div className="space-y-10">
+                                                    {activeRecipe.instructions.map((step, idx) => (
+                                                        <div key={idx} className="flex gap-6">
+                                                            <div className="w-10 h-10 rounded-full bg-[#B2EDE0] text-[#2DB9A5] flex items-center justify-center text-lg font-bold flex-shrink-0 shadow-sm">
+                                                                {idx + 1}
+                                                            </div>
+                                                            <p className="text-lg text-black/80 leading-relaxed font-medium pt-1">{step}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            {activeRecipe.instructions_ko && (
+                                                <div className="pt-12 border-t border-black/10">
+                                                    <h4 className="text-xs uppercase tracking-widest text-[#FFB8A5] font-bold mb-6">한국어 순서</h4>
+                                                    <div className="space-y-10">
+                                                        {activeRecipe.instructions_ko.map((step, idx) => (
+                                                            <div key={idx} className="flex gap-6">
+                                                                <div className="w-10 h-10 rounded-full bg-[#B2EDE0] text-[#2DB9A5] flex items-center justify-center text-lg font-bold flex-shrink-0 shadow-sm">
+                                                                    {idx + 1}
+                                                                </div>
+                                                                <p className="text-lg text-black/80 leading-relaxed font-medium pt-1">{step}</p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="mt-20 p-10 bg-[#2DB9A5]/5 rounded-[2rem] border-2 border-dashed border-[#2DB9A5]/20 text-center">
+                                            <h4 className="text-3xl font-bold heading-bubbly text-[#FFB8A5] mb-2">Bon Appétit!</h4>
+                                            <p className="text-black/60 font-medium italic">{activeRecipe.footerMessage}</p>
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className="text-center py-20 bg-white/5 rounded-[3rem] border border-white/10 border-dashed">
+                            <p className="text-2xl text-white/40 font-medium">Please select a recipe above to see details</p>
+                        </div>
+                    )}
 
                 </div>
             </main>
 
-            {/* Footer */}
             <footer className="bg-[#0b3842] text-white py-20 px-6 border-t border-white/5 relative z-10 mt-12">
                 <div className="max-w-[90vw] mx-auto flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-8">
                     <div className="uppercase tracking-widest text-xs">Based in Korea</div>
                     <div className="uppercase tracking-widest text-xs">© 2026 Minjoo Cho</div>
                 </div>
             </footer>
-
         </div>
-    )
+    );
 }
 
 export default RecipesApp
