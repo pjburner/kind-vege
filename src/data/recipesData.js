@@ -10,6 +10,18 @@ import cabbageField from '../assets/recipes/cabbage_field.jpg'
 import cabbageComparison from '../assets/recipes/cabbage_comparison.png'
 import cabbageSeasoning from '../assets/recipes/cabbage_seasoning.png'
 import cabbageFlat from '../assets/recipes/cabbage_flat.png'
+import hummusMain from '../assets/recipes/gochujang_hummus_1.png'
+import hummus2 from '../assets/recipes/gochujang_hummus_2.png'
+import hummus3 from '../assets/recipes/gochujang_hummus_3.png'
+import hummus4 from '../assets/recipes/gochujang_hummus_4.png'
+import hummus5 from '../assets/recipes/gochujang_hummus_5.png'
+import naengi1 from '../assets/recipes/naengi_1.png'
+import naengi2 from '../assets/recipes/naengi_2.png'
+import naengi4 from '../assets/recipes/naengi_4.png'
+
+import shiitakeMain from '../assets/recipes/shiitake_main.jpg'
+import shiitakeBoiling from '../assets/recipes/shiitake_boiling.png'
+import shiitakeCutting from '../assets/recipes/shiitake_cutting.jpg'
 
 export const RECIPES = [
         {
@@ -249,7 +261,9 @@ Seollal is about renewal. A plant-based tteokguk becomes part of that renewal—
                 keyword: "broth, stock, shiitake",
                 totalTime: "40 Minutes",
                 servings: "1 Liter",
-                image: temple2,
+                image: shiitakeMain,
+                variantTitle: "Preparation / 준비 과정",
+                variantImages: [shiitakeBoiling, shiitakeCutting],
                 blogTitle: "The Foundation of Flavor",
                 blogPassage: `A good stock is everything in vegan cooking. Shiitake and Dashima provide the ultimate umami punch.`,
                 ingredients: ["6 dried shiitake mushrooms", "4 sheets of kombu/dashima", "1 radish", "1.5L water"],
@@ -338,10 +352,7 @@ Seollal is about renewal. A plant-based tteokguk becomes part of that renewal—
                 image: cabbageSaladMain,
                 variantImages: [cabbageComparison, cabbageSeasoning, cabbageFlat, cabbageField],
                 blogTitle: "봄동 겉절이 황금레시피 (비건) / Golden Recipe: Vegan Spring Cabbage Salad",
-                blogPassage: `Bomdong is a type of spring cabbage that is hardy, sweet, and perfectly suited for a fresh, unfermented kimchi-style salad. 
-
-Notice how the leaves soften slightly but still stay crisp!
-잎이 약간 부드러워지면서도 아삭함이 살아있는지 확인해 보세요!`,
+                blogPassage: `Bomdong is a type of spring cabbage that is hardy, sweet, and perfectly suited for a fresh, unfermented kimchi-style salad. \n\nNotice how the leaves soften slightly but still stay crisp!\n잎이 약간 부드러워지면서도 아삭함이 살아있는지 확인해 보세요!`,
                 ingredients: [
                         "200g spring cabbage",
                         "A few carrots",
@@ -383,6 +394,140 @@ Notice how the leaves soften slightly but still stay crisp!
                         "양념은 따로 섞습니다.",
                         "그런 다음 봄동과 채 썬 당근을 양념과 함께 살살 버무립니다.",
                         "맛있게 드세요!"
+                ],
+                footerMessage: "Enjoy! 맛있게 드세요!"
+        },
+        {
+                id: "gochujang-hummus",
+                title: "Gochujang Hummus 고추장 후무스",
+                featured: true,
+                dietary: "Vegan | Dairy-Free | Gluten-Free available",
+                course: "Dip, Side Dish",
+                cuisine: "Fusion, Korean, Middle Eastern, Vegan",
+                keyword: "gochujang, hummus, chickpeas, korean fusion, vegan, dip",
+                totalTime: "30+ Minutes",
+                servings: "2-4 Servings",
+                image: hummusMain,
+                variantTitle: "Process / 과정",
+                variantImages: [hummus5, hummus2, hummus3, hummus4],
+                blogTitle: "When Middle East food Meets Korean Sauce…?",
+                blogPassage: `Hummus is one of those dishes that welcomes small changes while still keeping its comforting, creamy character. And naturally vegan(plant-based). One day, I wondered what would happen if I combined it with one of Korea’s most beloved ingredients **gochujang**, a fermented chili paste known for its deep, savory, and spicy flavor.\n\nThe result was surprisingly harmonious. The smooth chickpeas and nutty sesame blend beautifully with the rich, slightly spicy depth of gochujang. A touch of olive oil and sesame oil adds warmth, while roasted sesame seeds bring extra texture and aroma.\n\nThis **gochujang hummus** is simple, bold, and a little unexpected. It’s a small meeting between Middle Eastern hummus and Korean cuisines. Created a dip that feels both familiar and new.\n\nServe it with fresh vegetables, warm bread, or crackers, and enjoy a hummus that carries a gentle hint of Korean flavor in every bite. I like to add this to bibimbap(or poke) and sandwiches.`,
+                ingredients: [
+                        "1 can chickpeas (approx. 400g)",
+                        "2 tablespoons gochujang",
+                        "1 teaspoon tahini (optional)",
+                        "1 teaspoon lemon juice (optional)",
+                        "1 tablespoon garlic powder (optional)",
+                        "2 tablespoons olive oil",
+                        "1 tablespoon sesame oil",
+                        "10g roasted sesame seeds",
+                        "A pinch of salt",
+                        "Water"
+                ],
+                ingredients_ko: [
+                        "병아리콩 1캔(약 400g)",
+                        "고추장 2큰술",
+                        "타히니 1작은술(선택)",
+                        "레몬즙 1작은술(선택)",
+                        "마늘가루 1작은술(선택)",
+                        "올리브유 2큰술",
+                        "참기름 1큰술",
+                        "볶은 참깨 10g",
+                        "소금 약간",
+                        "물"
+                ],
+                instructions: [
+                        "Soak the dried chickpeas in water for at least 5 hours.",
+                        "Add plenty of water and a pinch of salt to a pot and boil for 30 minutes.",
+                        "Put the boiled chickpeas (rinsing is essential if using canned chickpeas), gochujang, garlic powder, lemon juice (optional), tahini (optional), roasted sesame seeds, salt, olive oil, and sesame oil into a blender.",
+                        "Blend slowly until the ingredients are smooth. (Adding a little of the chickpea boiling water or plain water will make it smoother.)",
+                        "Add olive oil and sesame oil while blending to adjust the consistency.",
+                        "Place the hummus on a plate.",
+                        "Finish by sprinkling olive oil, roasted sesame seeds, and red chili powder over the hummus."
+                ],
+                instructions_ko: [
+                        "건조된 병아리콩을 5시간 이상 물에 불려주세요.",
+                        "냄비에 충분한 물과 병아리콩을 소금 한 꼬집을 넣고 30분간 삶아 주세요.",
+                        "삶은 병아리콩 (통조림 사용 시 헹굼 필수), 고추장, 마늘가루, 레몬즙(선택), 타히니(선택), 볶은 참깨, 소금, 올리브유, 참기름을 믹서기에 넣습니다.",
+                        "재료가 부드러워질 때까지 천천히 갈아줍니다. (병아리콩 삶은 물이나 생수를 조금 넣으면 더 부드러워집니다.)",
+                        "갈면서 올리브유와 참기름을 추가하여 농도를 맞춥니다.",
+                        "후무스를 접시에 담아주세요.",
+                        "후무스 위에 올리브유, 볶은 참깨와 고춧가루를 뿌려 마무리합니다."
+                ],
+                footerMessage: "Enjoy! 맛있게 드세요!"
+        },
+        {
+                id: "naengi-doenjang-guk",
+                title: "Shepherd’s purse Soybeanpaste Soup(Naengi Doenjang Guk) 냉이 된장국",
+                featured: false,
+                dietary: "Vegan | Yes Garlic & Onion | Dairy-Free | Gluten-Free available",
+                course: "Soup, Main",
+                cuisine: "Korean, Vegan, Spring",
+                keyword: "naengi, soybean paste, doenjang guk, spring soup, shepherd's purse",
+                totalTime: "25+ Minutes",
+                servings: "2 Servings",
+                image: naengi1,
+                variantTitle: "Detail / 상세",
+                variantImages: [naengi4, naengi2],
+                blogTitle: "A True Sign of Spring",
+                blogPassage: `Naengi (냉이), also known as **shepherd’s purse**, is one of Korea’s most beloved wild spring herbs.\n\nFor many Koreans, naengi is a true **sign of spring**. After a long winter, its fresh flavor feels especially comforting.\n\nTraditionally, it has been valued not only for its taste but also for its nutritional benefits.\n\nNaengi is rich in **protein for a leafy vegetable**, and contains **calcium, iron, and various vitamins**.`,
+                ingredients: [
+                        "100g shepherd’s purse (naengi)",
+                        "1 tablespoon soybean paste",
+                        "1 tablespoon soy sauce",
+                        "Salt",
+                        "5 pieces of kelp",
+                        "A handful of dried shiitake mushrooms",
+                        "30g daikon (Korean radish)",
+                        "100g tofu",
+                        "1 tablespoon roasted soybean powder",
+                        "1 teaspoon minced garlic (optional)",
+                        "Water"
+                ],
+                ingredients_ko: [
+                        "냉이 100g",
+                        "된장 1큰술",
+                        "국간장 1큰술",
+                        "소금",
+                        "조각 다시마 5장",
+                        "말린 표고버섯 한 움큼",
+                        "무 30g",
+                        "두부 100g",
+                        "볶은콩가루 1큰술",
+                        "다진 마늘 1작은술(선택)",
+                        "물"
+                ],
+                instructions: [
+                        "First, wash the shepherd's purse thoroughly several times.",
+                        "Remove any yellow parts.",
+                        "There are two ways to clean the shepherd's purse: Scrub it with a toothbrush or scrape it with the back of a knife.",
+                        "Add the shiitake mushrooms and kelp together to water to make a vegetable stock.",
+                        "After 3 minutes, remove the kelp.",
+                        "And then skim off the foam.",
+                        "Cut the daikon into thick strips.",
+                        "Dice the tofu into bite-size pieces.",
+                        "Mash the soybean paste into the vegetable stock and mix well.",
+                        "Add the soy sauce and salt.",
+                        "Add the daikon and tofu and bring to a boil.",
+                        "Add the minced garlic (optional).",
+                        "Add the shepherd's purse and bring to a boil.",
+                        "Finally, sprinkle with roasted soybean powder. (If you don't have roasted soybean powder, you can use soy milk.)"
+                ],
+                instructions_ko: [
+                        "먼저 냉이를 깨끗이 여러 번 씻으세요.",
+                        "노란색 부분은 제거해 주세요.",
+                        "냉이를 깨끗이 다듬는 방법은 두 가지입니다: 칫솔로 문지르거나 칼등을 사용해 긁어주세요.",
+                        "표고버섯과 다시마를 넣고 채수를 만드세요.",
+                        "3분 이후 다시마는 건져내 주세요.",
+                        "그리고 거품을 걷어냅니다.",
+                        "무를 굵게 채썰어주세요.",
+                        "두부를 먹기 좋은 크기로 깍둑썰어주세요.",
+                        "채수에 된장을 으깨어 넣고 잘 녹이세요.",
+                        "국간장과 소금을 넣어주세요.",
+                        "무와 두부를 넣고 차례로 끓여주세요.",
+                        "다진 마늘을 넣으세요.(선택)",
+                        "냉이를 넣고 한소끔 끓여주세요.",
+                        "마지막으로 볶은 콩가루를 뿌려주면 완성. (볶은 콩가루가 없다면 두유를 조금 넣어주세요.)"
                 ],
                 footerMessage: "Enjoy! 맛있게 드세요!"
         }
